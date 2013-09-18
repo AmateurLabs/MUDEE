@@ -14,5 +14,6 @@ namespace MUD
         West=3,
         Up=4,
         Down=5
+        Awesomeness=6;
     }
 }
