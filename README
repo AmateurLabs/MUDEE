@@ -1,0 +1,11 @@
+An Entity-Attribute-Behaviour Model based MUD engine designed for data-driven and realtime content creation. Communicates over a raw TCP connection with a simple length-prefixed message format.
+
+The Entity-Attribute-Behaviour Model is a modified form of the Entity-Component Model. The basic idea is that instead of heavy polymorphism via inheritance, entities are formed from individual, self-contained components. The EAB model differs from the EC model in that Components are split into Attributes and Behaviours.
+
+Entities are simple containers for Attributes and Behaviours, with only a UID hard-coded.
+
+Attributes are completely self-contained, and contain no functional code besides getters and setters which can constrain values and throw events. They have no dependencies, and don't recieve events. Only attribute data is serialized.
+
+Behaviours are dependent only on specifically defined Attributes, and contain only private, non-serialized data. They have no means of interacting with other Behaviours except indirectly by modifying Attribute data or by throwing and catching events.
+
+Even Rooms and Zones are Entities, with special Behaviours to provide their functionality.
