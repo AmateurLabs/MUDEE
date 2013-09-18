@@ -41,6 +41,7 @@ namespace MUD {
 			DO = 253, //do
 			DONT = 254, //dont
 			IAC = 255, //Interpret as command
+            EWE = 256 //We will break the system, no one can stop us!
 		}
 
 		public enum Option {
