@@ -8,8 +8,8 @@
     <ProjectGuid>{FB898930-05B4-448B-A712-28FA7A2BCAF9}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TelnetClient</RootNamespace>
-    <AssemblyName>TelnetClient</AssemblyName>
+    <RootNamespace>MUD.Client</RootNamespace>
+    <AssemblyName>MUD.Client</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -43,15 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Client.cs" />
+    <Compile Include="OldClient.cs" />
+    <Compile Include="OldProgram.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TelnetLib\TelnetLib.csproj">
-      <Project>{929353A7-39F9-406B-9628-2CDF26834702}</Project>
-      <Name>TelnetLib</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

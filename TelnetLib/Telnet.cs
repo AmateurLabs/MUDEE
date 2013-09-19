@@ -7,6 +7,7 @@ namespace Telnet {
 	public class Telnet {
 
 		public static Encoding encoding = Encoding.GetEncoding(437);
+		//public static Encoding encoding = Encoding.GetEncoding(437);
 
 		public enum ControlCode : byte {
 			//Required Control Codes
