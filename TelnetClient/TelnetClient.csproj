@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A9E818A6-87F3-49E2-9707-F4F6E4D56B3E}</ProjectGuid>
+    <ProjectGuid>{FB898930-05B4-448B-A712-28FA7A2BCAF9}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MUD</RootNamespace>
-    <AssemblyName>MUD</AssemblyName>
+    <RootNamespace>TelnetClient</RootNamespace>
+    <AssemblyName>TelnetClient</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -43,13 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attribute.cs" />
-    <Compile Include="Behaviour.cs" />
-    <Compile Include="Entity.cs" />
-    <Compile Include="Enums.cs" />
+    <Compile Include="Client.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Room.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TelnetLib\TelnetLib.csproj">
