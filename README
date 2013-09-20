@@ -10,7 +10,7 @@ Behaviours are dependent only on specifically defined Attributes, and contain on
 
 Even Rooms and Zones are Entities, with special Behaviours to provide their functionality. For example, a typical mob entity might look like this:
 	Entity
-		uid=35364
+		uid=35363
 		NameAttribute
 			name=Slimy Orc
 		HealthAttribute
