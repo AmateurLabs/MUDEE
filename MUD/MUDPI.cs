@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MUDEE {
 	class MUDPI {
-		/* ***Multi-User Domain Protocol Interface***
+		/* *** Multi-User Domain Protocol Interface ***
 		 * MUDPI is a client-server protocol, unlike Telnet.
 		 * MUDPI supports ASCII, but Unicode support is recommended for message content.
 		 * It operates via escape sequences initiated by MCB and terminated by MCE.
@@ -21,7 +21,7 @@ namespace MUDEE {
 		 * The formatting codes are designed to roughly match CSS, rather than ANSI.
 		 */
 
-		public enum CommandCode {
+		public enum CommandCode : byte {
 			//0-16: Reserved (Non-Printable ASCII Codes)
 
 			//17-20: MUDPI Control Characters
@@ -46,14 +46,13 @@ namespace MUDEE {
 			KSS = 38, //Key State Set [Key, State] //State is 1=Down, 2=Hold, 3=Up, else Neutral. Down and Up should only be sent once per press.
 			//39-47 Reserved
 
-			//48-57: Clear Commands
-			CBT = 48, //Clear Buffer Text [X, Y, Width, Height]
-			CRT = 49, //Clear Row Text
-			CCT = 50, //Clear Column Text
-			CWT = 51, //Clear Window Text
-			//52-57 Reserved
+			//48-57: Reserved (Custom Commands)
 
-			//58-61: Unused (Custom Commands)
+			//58-61: Clear Commands
+			CWT = 58, //Clear Window Text
+			CBT = 59, //Clear Buffer Text [X, Y, Width, Height]
+			CRT = 60, //Clear Row Text
+			CCT = 61, //Clear Column Text
 
 			//62, 63, 95, 127: Extension Commands
 			ECG = 62, //Extension Command Get [Subcommand, Values...]
@@ -76,16 +75,16 @@ namespace MUDEE {
 			TUD = 102, //Text Underline Disable
 			TOE = 71, //Text Overline Enable
 			TOD = 103, //Text Overline Disable
-			TSE = 72, //Text Strikethrough Enable
-			TSD = 104, //Text Strikethrough Disable
+			TLE = 72, //Text Line-through Enable
+			TLD = 104, //Text Line-through Disable
 			TSE = 73, //Text Shadow Enable [X, Y, Blur, R, G, B] //X and Y offsets are centered at 127, not 0. Blur is in pixels.
 			TSD = 105, //Text Shadow Disable
 			TWE = 74, //Text Weight Enable [Weight] //Ranges from 0-9, Normal=4, Bold=7
 			TWD = 106, //Text Weight Disable
 			TME = 75, //Text Mask Enable [Char] //Text between TME and TMD is masked as ASCII character Char without modifying the buffer.
 			TMD = 107, //Text Mask Disable
-			TBE = 76, //Text Blink Enable [Speed] //Blinks at a rate of Speed * 50 milliseconds
-			TBD = 108, //Text Blink Disable
+			TFE = 76, //Text Flash Enable [Speed] //Blinks at a rate of Speed * 50 milliseconds
+			TFD = 108, //Text Flash Disable
 			WCE = 77, //Window Color Enable [R, G, B]
 			WCD = 109, //Window Color Disable
 			//78-90, 110-122 Reserved
@@ -99,6 +98,21 @@ namespace MUDEE {
 			KID = 125, //Keyboard Input Disable //Tells client not to send any key info via KSS.
 			USE = 94, //Unicode Support Enable
 			USD = 126, //Unicode Support Disable
+		}
+
+		public static string FormatCommand(CommandCode code, params byte[] parameters) {
+			string output = "";
+			byte[] bytes = new byte[parameters.Length + 3];
+			bytes[0] = (byte)CommandCode.MCB;
+			bytes[1] = (byte)code;
+			for (int i = 0; i < parameters.Length; i++) {
+				bytes[2 + i] = parameters[i];
+			}
+			bytes[2 + parameters.Length] = (byte)CommandCode.MCE;
+			for (int i = 0; i < bytes.Length; i++) {
+				output += char.ConvertFromUtf32(bytes[i]);
+			}
+			return output;
 		}
 	}
 }

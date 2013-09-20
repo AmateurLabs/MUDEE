@@ -48,9 +48,12 @@
   <ItemGroup>
     <Compile Include="Attribute.cs" />
     <Compile Include="Behaviour.cs" />
+    <Compile Include="Client.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="Helpers.cs" />
     <Compile Include="MUDPI.cs" />
+    <Compile Include="Server.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
