@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Fleck;
+using MUDEE.Attributes;
+using MUDEE.Behaviours;
 
 namespace MUDEE
 {
@@ -10,6 +12,7 @@ namespace MUDEE
     {
 		static void Main(string[] args) {
 			Server.Init();
+
 			bool quit = false;
 			while (!quit) {
 				string input = Console.ReadLine();

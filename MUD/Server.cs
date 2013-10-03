@@ -12,7 +12,7 @@ namespace MUDEE {
 
 		public static void Init() {
 			clients = new List<Client>();
-			socketServer = new WebSocketServer("ws://www.amateurlabs.com:3000");
+			socketServer = new WebSocketServer("ws://amateurlabs.com:3000");
 			socketServer.SupportedSubProtocols = new string[] { "mud" };
 			socketServer.Start(socket => {
 				socket.OnBinary = bytes => OnBinary(socket, bytes);
@@ -44,7 +44,11 @@ namespace MUDEE {
 		static void OnOpen(IWebSocketConnection socket) {
 			Client client = new Client(socket);
 			Console.WriteLine("Client " + socket.ConnectionInfo.Id + " Connected");
-			client.Send(Helpers.DrawBox(0, 0, 60, 40));
+			string output = "";
+			output += Helpers.DrawBox(0, 0, 60, 29);
+			output += MUDPI.FormatCommand(MUDPI.Code.PSE, 0, 29, 58, 1);
+			client.Send(output);
+
 		}
 
 		public static void Broadcast(string msg) {

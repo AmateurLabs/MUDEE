@@ -20,16 +20,24 @@ namespace MUDEE {
 				buffer[0, t] = char.ConvertFromUtf32(0x2502);
 			}
 			string output = "";
-			output += MUDPI.FormatCommand(MUDPI.CommandCode.BSE, x, y, w, h);
+			output += MUDPI.FormatCommand(MUDPI.Code.BSE, x, y, w, h);
 			for (int bufY = 0; bufY < h; bufY++) {
 				for (int bufX = 0; bufX < w; bufX++) {
 					if (buffer[bufX, bufY] == null) {
-						buffer[bufX, bufY] = " ";
+						buffer[bufX, bufY] = char.ConvertFromUtf32(0xA0);
 					}
 					output += buffer[bufX, bufY];
 				}
 			}
-			output += MUDPI.FormatCommand(MUDPI.CommandCode.BSD);
+			output += MUDPI.FormatCommand(MUDPI.Code.BSD);
+			return output;
+		}
+
+		public static string Pad(int length) {
+			string output = "";
+			for (int i = 0; i < length; i++) {
+				output += char.ConvertFromUtf32(0xA0);
+			}
 			return output;
 		}
 	}

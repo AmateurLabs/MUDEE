@@ -21,7 +21,7 @@ namespace MUDEE {
 		 * The formatting codes are designed to roughly match CSS, rather than ANSI.
 		 */
 
-		public enum CommandCode : byte {
+		public enum Code : byte {
 			//0-16: Reserved (Non-Printable ASCII Codes)
 
 			//17-20: MUDPI Control Characters
@@ -92,26 +92,27 @@ namespace MUDEE {
 			//91-94: Special Enables, 123-126: Special Disables
 			BSE = 91, //Block Scope Enable [X, Y, Width, Height] //The block of characters to start writing to.
 			BSD = 123, //Block Scope Disable
-			PSE = 92, //Prompt Scope Enable //Sets cursor here and lets the client submit a message.
-			PSD = 124, //Prompt Scope Disable //Marks the end of the prompt. Fill writeable area between PSE and PSD with spaces.
+			PSE = 92, //Prompt Scope Enable [X, Y, Width, Height] //Sets cursor here and lets the client submit a message.
+			PSD = 124, //Prompt Scope Disable
 			KIE = 93, //Keyboard Input Enable //Allows client to send key info via KSS.
 			KID = 125, //Keyboard Input Disable //Tells client not to send any key info via KSS.
 			USE = 94, //Unicode Support Enable
 			USD = 126, //Unicode Support Disable
+
+			ESC = 255, //Escape Character
 		}
 
-		public static string FormatCommand(CommandCode code, params byte[] parameters) {
+		public static string FormatCommand(Code code, params byte[] parameters) {
 			string output = "";
-			byte[] bytes = new byte[parameters.Length + 3];
-			bytes[0] = (byte)CommandCode.MCB;
-			bytes[1] = (byte)code;
+			output += char.ConvertFromUtf32((byte)Code.MCB);
+			output += char.ConvertFromUtf32((byte)code);
 			for (int i = 0; i < parameters.Length; i++) {
-				bytes[2 + i] = parameters[i];
+				if (parameters[i] == (byte)Code.MCB || parameters[i] == (byte)Code.MCE) {
+					output += char.ConvertFromUtf32((byte)255);
+				}
+				output += char.ConvertFromUtf32(parameters[i]);
 			}
-			bytes[2 + parameters.Length] = (byte)CommandCode.MCE;
-			for (int i = 0; i < bytes.Length; i++) {
-				output += char.ConvertFromUtf32(bytes[i]);
-			}
+			output += char.ConvertFromUtf32((byte)Code.MCE);
 			return output;
 		}
 	}
