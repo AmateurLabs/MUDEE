@@ -6,7 +6,19 @@ using System.Text;
 namespace MUDEE {
 	public class Entity {
 		private static uint nextUID;
-		public uint UID;
+		public readonly uint UID;
+		private Entity parent;
+		private List<Entity> children;
+
+		public Entity Parent {
+			get {
+				return parent;
+			}
+			set {
+				parent = value;
+				parent.children.Add(this);
+			}
+		}
 
 		private List<Component> components;
 		private Dispatcher dispatcher;
@@ -24,10 +36,7 @@ namespace MUDEE {
 			UID = nextUID;
 			nextUID++;
 			components = new List<Component>();
-		}
-
-		public Entity(Prefab prefab) {
-
+			children = new List<Entity>();
 		}
 
 		public Entity Clone() {
@@ -36,6 +45,15 @@ namespace MUDEE {
 				entity.Add(component.Clone());
 			}
 			return entity;
+		}
+
+		public void Update() {
+			foreach (Component component in components) {
+				component.OnUpdate();
+			}
+			foreach (Entity child in children) {
+				child.Update();
+			}
 		}
 
 		public void Add(Component component) {
@@ -75,6 +93,31 @@ namespace MUDEE {
 
 		public bool Has<T>() where T : Component {
 			return (Get<T>() != null);
+		}
+
+		public ALDNode Serialize() {
+			ALDNode data = new ALDNode();
+			foreach (Component component in components) {
+				ALDNode componentNode = new ALDNode("" + component.GetType().Name, "");
+				if (component is Attribute) {
+					Attribute attribute = component as Attribute;
+					foreach (ALDNode attributeData in attribute.Serialize()) {
+						componentNode.AddNode(attributeData);
+					}
+				}
+				data.AddNode(componentNode);
+			}
+			return data;
+		}
+
+		public void Deserialize(ALDNode data) {
+			foreach (ALDNode node in data) {
+				Component c = Component.CreateInstanceOf(node.Name);
+				if (c is Attribute) {
+					((Attribute)c).Deserialize(node);
+				}
+				Add(c);				
+			}
 		}
 	}
 }

@@ -36,7 +36,15 @@ namespace MUDEE {
 
 		public static Component CreateInstanceOf(string name) {
 			try {
-				return (Component)Activator.CreateInstance(null, name).Unwrap();
+				string typeName = "";
+				if (name.StartsWith("A")) {
+					typeName = "MUDEE.Attributes." + name;
+				} else if (name.StartsWith("B")) {
+					typeName = "MUDEE.Behaviours." + name;
+				}else {
+
+				}
+				return (Component)Activator.CreateInstance(null, typeName).Unwrap();
 			} catch (Exception e) {
 				throw e;
 			}

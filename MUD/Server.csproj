@@ -48,9 +48,11 @@
   <ItemGroup>
     <Compile Include="ALDNode.cs" />
     <Compile Include="ALDValue.cs" />
-    <Compile Include="Behaviours\DeathBehaviour.cs" />
+    <Compile Include="Attributes\AAlias.cs" />
+    <Compile Include="Attributes\ALink.cs" />
+    <Compile Include="Behaviours\BDeath.cs" />
     <Compile Include="Dispatcher.cs" />
-    <Compile Include="Attributes\HealthAttribute.cs" />
+    <Compile Include="Attributes\AHealth.cs" />
     <Compile Include="Attribute.cs" />
     <Compile Include="Behaviour.cs" />
     <Compile Include="Client.cs" />

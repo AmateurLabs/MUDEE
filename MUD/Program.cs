@@ -13,6 +13,10 @@ namespace MUDEE
 		static void Main(string[] args) {
 			Server.Init();
 
+			Entity e = new Entity();
+			e.Deserialize(ALDNode.ParseFile("C:\\Test.ald"));
+			Console.WriteLine(e.Serialize().Serialize());
+
 			bool quit = false;
 			while (!quit) {
 				string input = Console.ReadLine();

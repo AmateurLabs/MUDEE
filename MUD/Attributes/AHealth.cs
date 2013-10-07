@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 namespace MUDEE.Attributes {
-	public class HealthAttribute : Attribute {
+	public class AHealth : Attribute {
 
 		private int health;
 		private int maxHealth;
@@ -14,6 +14,7 @@ namespace MUDEE.Attributes {
 				return health;
 			}
 			set {
+				int oldHealth = health;
 				health = value;
 				if (health < 0) {
 					health = 0;
@@ -21,8 +22,9 @@ namespace MUDEE.Attributes {
 				if (health > maxHealth) {
 					health = maxHealth;
 				}
+				entity.Dispatcher.Publish(new MHealthChanged(health - oldHealth));
 				if (health == 0) {
-					entity.Dispatcher.Publish(new HealthDepletedMessage());
+					entity.Dispatcher.Publish(new MHealthDepleted(oldHealth - health));
 				}
 			}
 		}
@@ -38,16 +40,20 @@ namespace MUDEE.Attributes {
 
 		public override ALDNode Serialize() {
 			ALDNode data = new ALDNode();
-			data.AddNode(new ALDNode("health", ""+health));
-			data.AddNode(new ALDNode("maxHealth", ""+maxHealth));
+			data.AddNode(new ALDNode("Health", ""+health));
+			data.AddNode(new ALDNode("MaxHealth", ""+maxHealth));
 			return data;
 		}
 
 		public override void Deserialize(ALDNode data) {
 			health = 0;
 			maxHealth = 0;
-			if (data.Contains("health")) {
-				
+			if (data.Contains("MaxHealth")) {
+				maxHealth = (int)data["MaxHealth"].Value;
+				health = maxHealth;
+			}
+			if (data.Contains("Health")) {
+				health = (int)data["Health"].Value;
 			}
 		}
 
@@ -56,9 +62,19 @@ namespace MUDEE.Attributes {
 		}
 	}
 
-	public class HealthDepletedMessage : Message {
+	public class MHealthDepleted : Message {
+		public int KillDamage;
 
+		public MHealthDepleted(int killDamage) {
+			KillDamage = killDamage;
+		}
 	}
 
-	public delegate void HealthDepletedHandler(HealthDepletedMessage msg);
+	public class MHealthChanged : Message {
+		public int Change;
+
+		public MHealthChanged(int change) {
+			Change = change;
+		}
+	}
 }

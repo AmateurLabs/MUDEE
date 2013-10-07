@@ -38,18 +38,22 @@ public class ALDNode {
 	}
 	
 	public ALDNode() {
+		Name = "";
+		Value = "";
 		_nodeDict = new Dictionary<string, ALDNode>();
 	}
 	
 	public ALDNode(string input) {
+		Name = "";
+		Value = "";
 		_nodeDict = new Dictionary<string, ALDNode>();
 		Deserialize(input);
 	}
 	
 	public ALDNode(string name, string val) {
 		_nodeDict = new Dictionary<string, ALDNode>();
-		Name = name;
-		Value = val;
+		Name = name ?? "";
+		Value = val ?? "";
 	}
 	
 	public void AddNode(ALDNode node) {
